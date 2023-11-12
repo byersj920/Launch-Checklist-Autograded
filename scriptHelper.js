@@ -4,17 +4,18 @@ require('cross-fetch/polyfill');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
     // Here is the HTML formatting for our mission target div.
-    /*
-                 <h2>Mission Destination</h2>
+
+                let textAdded = `<h2>Mission Destination</h2>
                  <ol>
-                     <li>Name: </li>
-                     <li>Diameter: </li>
+                     <li>Name: ${name}</li>
+                     <li>Diameter: ${diameter}</li>
                      <li>Star: ${star}</li>
-                     <li>Distance from Earth: </li>
-                     <li>Number of Moons: </li>
+                     <li>Distance from Earth: ${distance}</li>
+                     <li>Number of Moons: ${moons}</li>
                  </ol>
-                 <img src="">
-    */
+                 <img src=${imageUrl}>`;
+                 let missionTarget = document.getElementById("missionTarget");
+                 missionTarget.innerHTML = textAdded;
  }
  
  /* So, for the formSubmission project: My plan is to use the function validateInput to return a validation string for what is
@@ -32,6 +33,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     }
  }
  
+ /* I'm not sure where I was supposed to implement the 'list' parameter into this
+ function, but everything works without it sooooo.... */
  function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     
     if(validateInput(pilot) === "Empty"){
@@ -108,13 +111,19 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  async function myFetch() {
      let planetsReturned;
  
-     planetsReturned = await fetch().then( function(response) {
-         });
+     planetsReturned = await fetch('https://handlers.education.launchcode.org/static/planets.json').then( function(response) {
+        let planetJson = response.json();
+
+        return planetJson;
+     
+    });
  
      return planetsReturned;
  }
  
  function pickPlanet(planets) {
+    let chosenPlanet = Math.floor(Math.random()*planets.length);
+    return planets[chosenPlanet];
  }
  
  module.exports.addDestinationInfo = addDestinationInfo;
